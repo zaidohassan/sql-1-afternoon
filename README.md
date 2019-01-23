@@ -258,13 +258,40 @@ SELECT * FROM person WHERE favorite_color IN ( 'yellow', 'purple' )
 ### Instructions
 
 1. Create a table called orders that records: person_id, product_name, product_price, quantity.
+
+CREATE TABLE orders (
+person_id SERIAL,
+product_name VARCHAR(255),
+product_price NUMERIC,
+quantity INTEGER
+)
+
 2. Add 5 orders to the orders table.
+
    - Make orders for at least two different people.
    - person_id should be different for different people.
+     INSERT INTO orders (product_name, product_price, quantity)
+     VALUES
+     ('Cheeseburger', 14.99 , 1),
+     ('Gyros', 7 , 3),
+     ('Falfael', 3 , 9),
+     ('Shawerma', 9.97, 2),
+     ('Coke', 1, 5)
+
 3. Select all the records from the orders table.
+
+SELECT \* FROM orders
+
 4. Calculate the total number of products ordered.
+
+SELECT SUM(quantity) FROM orders
+
 5. Calculate the total order price.
+   SELECT SUM(product_price) FROM orders
+
 6. Calculate the total order price by a single person_id.
+   SELECT SUM(product_price) FROM orders
+   WHERE person_id = 1
 
 ### Solution
 
@@ -340,10 +367,33 @@ SELECT SUM(product_price * quantity) FROM orders WHERE person_id = 0;
 ### Instructions
 
 1. Add 3 new artists to the artist table. ( It's already created )
+
+INSERT INTO artist (name)
+VALUES
+('Zaid'),
+('Sara'),
+('Ma')
+
 2. Select 10 artists in reverse alphabetical order.
+   SELECT name FROM artist
+   ORDER BY name DESC
+   LIMIT 10
+
 3. Select 5 artists in alphabetical order.
+
+SELECT name FROM artist
+ORDER BY name ASC
+LIMIT 5
+
 4. Select all artists that start with the word 'Black'.
+
+SELECT name FROM artist
+WHERE name LIKE 'Black%';
+
 5. Select all artists that contain the word 'Black'.
+
+SELECT name FROM artist
+WHERE name LIKE '%Black%';
 
 ### Solution
 
@@ -408,11 +458,25 @@ SELECT * FROM artist WHERE name LIKE '%Black%';
 ### Instructions
 
 1. List all employee first and last names only that live in Calgary.
+   SELECT first_name, last_name FROM employee
+   WHERE city = 'Calgary'
 2. Find the birthdate for the youngest employee.
+
+SELECT MAX(birth_date) from employee
+
 3. Find the birthdate for the oldest employee.
+   SELECT MIN(birth_date) from employee
 4. Find everyone that reports to Nancy Edwards (Use the ReportsTo column).
+
    - You will need to query the employee table to find the Id for Nancy Edwards
+
+   SELECT first_name FROM employee
+   Where reports_to = 2
+
 5. Count how many people live in Lethbridge.
+
+SELECT COUNT(city) FROM employee
+WHERE city = 'Lethbridge'
 
 ### Solution
 
@@ -477,13 +541,41 @@ SELECT COUNT(*) FROM employee WHERE city = 'Lethbridge';
 ### Instructions
 
 1. Count how many orders were made from the USA.
+   SELECT COUNT(billing_country)
+   FROM invoice
+   WHERE billing_country = 'USA'
 2. Find the largest order total amount.
+   SELECT MAX(total)
+   FROM invoice
+
 3. Find the smallest order total amount.
+
+SELECT MIN(total)
+FROM invoice
+
 4. Find all orders bigger than \$5.
+
+SELECT \* FROM invoice
+WHERE total > 5
+
 5. Count how many orders were smaller than \$5.
+
+SELECT \* FROM invoice
+WHERE total < 5
+
 6. Count how many orders were in CA, TX, or AZ (use IN).
+   SELECT COUNT(total)
+   FROM invoice
+   WHERE billing_state IN ('CA', 'TX', 'AZ')
+
 7. Get the average total of the orders.
+
+SELECT AVG(total)
+FROM invoice
+
 8. Get the total sum of the orders.
+   SELECT SUM(total)
+   FROM invoice
 
 ### Solution
 
